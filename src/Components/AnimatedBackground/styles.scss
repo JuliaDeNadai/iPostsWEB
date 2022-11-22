@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Exo:400,700');
+
+@mixin circles_li_child($left: 0%, $width: 40px, $height: 40px, $delay: 0s, $duration: 0s) {
+  left: $left;
+  width: $width;
+  height: $height;
+  animation-delay: $delay;
+  animation-duration: $duration;
+}
+
+@mixin dynamic_childs {
+  @for $i from 1 through 10 {
+    $size: random(150);
+    $position: random(100);
+
+    //@error "Property #{$size} - #{$i} - #{$position}";
+
+    &:nth-child(#{$i}) {
+      @include circles_li_child(random(100)+vw, $size + px, $size + px, random(15)+s, random(50)+s)
+    }
+  }
+}
+
+
+@keyframes animate {
+
+  0%{
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+
+  100%{
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+
+}
+
+*{
+  margin: 0px;
+  padding: 0px;
+}
+
+body{
+  font-family: 'Exo', sans-serif;
+}
+
+
+.context {
+  width: 100%;
+  position: absolute;
+  top:50vh;
+    
+}
+
+.area{
+  background: #1a1c40;  
+  background: -webkit-linear-gradient(to left, #41447e, #111332);  
+  width: 100%;
+  height:100vh;  
+  position: absolute; 
+  z-index: 0;
+}
+
+.circles{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.circles li{
+  position: absolute;
+  display: block;
+  list-style: none;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  animation: animate 25s linear infinite;
+  bottom: -150px;
+
+  @include dynamic_childs;
+  
+}
